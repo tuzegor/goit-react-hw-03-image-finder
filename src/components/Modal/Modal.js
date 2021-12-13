@@ -26,4 +26,5 @@ Modal.propTypes = {
   picture: PropTypes.object,
   closeModal: PropTypes.func,
 };
+
 export default Modal;

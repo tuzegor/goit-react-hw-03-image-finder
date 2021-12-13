@@ -43,6 +43,7 @@ class App extends Component {
     const { name, page } = this.state;
 
     this.setState({ status: 'pending' });
+
     fetchPicturesApi(name, page)
       .then(pictures => {
         if (pictures.total === 0) {

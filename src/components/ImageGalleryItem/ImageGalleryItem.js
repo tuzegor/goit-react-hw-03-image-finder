@@ -19,10 +19,12 @@ function ImageGalleryItem({
     </li>
   );
 }
+
 ImageGalleryItem.propTypes = {
   id: PropTypes.number,
   webformatURL: PropTypes.string,
   largeImageURL: PropTypes.string,
   openModal: PropTypes.func,
 };
+
 export default ImageGalleryItem;
