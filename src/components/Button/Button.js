@@ -1,5 +1,9 @@
 import styles from './Button.module.css';
-function Button() {
-  return <button className={styles.Button}>Load more</button>;
+function Button({ loadMore }) {
+  return (
+    <button className={styles.Button} onClick={loadMore}>
+      Load more
+    </button>
+  );
 }
 export default Button;

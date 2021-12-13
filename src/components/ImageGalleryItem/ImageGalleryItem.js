@@ -1,8 +1,19 @@
 import styles from './ImageGalleryItem.module.css';
-function ImageGalleryItem() {
+function ImageGalleryItem({
+  id,
+  tags,
+  webformatURL,
+  largeImageURL,
+  openModal,
+}) {
   return (
-    <li className={ImageGalleryItem}>
-      <img className={styles.ImageGalleryItemImage} src="" alt="" />
+    <li id={id} className={styles.ImageGalleryItem}>
+      <img
+        className={styles.ImageGalleryItemImage}
+        src={webformatURL}
+        alt={tags}
+        onClick={() => openModal(id, largeImageURL, tags)}
+      />
     </li>
   );
 }

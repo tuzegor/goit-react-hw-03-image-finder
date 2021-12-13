@@ -1,23 +1,41 @@
+import React, { Component } from 'react';
 import styles from './Searchbar.module.css';
 
-function Searchbar() {
-  return (
-    <header className={styles.Searchbar}>
-      <form className={styles.SearchForm}>
-        <button type="submit" className={styles.SearchFormButton}>
-          <span className={styles.SearchFormButtonLabel}>Search</span>
-        </button>
+class Searchbar extends Component {
+  state = {
+    searchName: '',
+  };
 
-        <input
-          className={styles.SearchFormInput}
-          type="text"
-          autocomplete="off"
-          autofocus
-          placeholder="Search images and photos"
-        />
-      </form>
-    </header>
-  );
+  inputChange = e => {
+    this.setState({ searchName: e.target.value });
+  };
+
+  searchbarFormSubmit = e => {
+    e.preventDefault();
+    this.props.onSubmit(this.state.searchName);
+  };
+
+  render() {
+    return (
+      <header className={styles.Searchbar}>
+        <form className={styles.SearchForm} onSubmit={this.searchbarFormSubmit}>
+          <button type="submit" className={styles.SearchFormButton}>
+            <span className={styles.SearchFormButtonLabel}>Search</span>
+          </button>
+
+          <input
+            className={styles.SearchFormInput}
+            type="text"
+            value={this.state.searchName}
+            autoComplete="off"
+            autoFocus
+            placeholder="Search images and photos"
+            onChange={this.inputChange}
+          />
+        </form>
+      </header>
+    );
+  }
 }
 
 export default Searchbar;
