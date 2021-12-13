@@ -1,6 +1,12 @@
 import styles from './Loader.module.css';
 
 function Loader() {
-  return <h1 className={styles.Loader}>Loader</h1>;
+  return (
+    <div className={styles.Loader}>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  );
 }
 export default Loader;

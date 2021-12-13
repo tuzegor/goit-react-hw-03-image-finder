@@ -47,7 +47,7 @@ class App extends Component {
       .then(pictures => {
         if (pictures.total === 0) {
           this.setState({
-            error: 'We don`t have any picture',
+            error: `We don't have picture: ${name}`,
             status: 'rejected',
           });
         } else {
@@ -68,8 +68,8 @@ class App extends Component {
   }
 
   render() {
-    const { pictures, status, showModal, currentPicture } = this.state;
-    console.log(this.state.currentPicture);
+    const { pictures, status, error, showModal, currentPicture } = this.state;
+
     return (
       <div className="App">
         <Searchbar onSubmit={this.formSubmit} />
@@ -94,6 +94,7 @@ class App extends Component {
         {showModal && (
           <Modal picture={currentPicture} closeModal={this.closeModal} />
         )}
+        {status === 'rejected' && <h1>{error}</h1>}
       </div>
     );
   }
