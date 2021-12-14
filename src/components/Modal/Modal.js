@@ -3,6 +3,13 @@ import styles from './Modal.module.css';
 import PropTypes from 'prop-types';
 
 class Modal extends Component {
+  componentDidMount() {
+    window.addEventListener('keydown', this.closePictureByEscape);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.closePictureByEscape);
+  }
+
   closePicture = e => {
     if (e.target === e.currentTarget) {
       this.props.closeModal();
@@ -15,13 +22,6 @@ class Modal extends Component {
       this.props.closeModal();
     }
   };
-
-  componentDidMount() {
-    window.addEventListener('keydown', this.closePictureByEscape);
-  }
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.closePictureByEscape);
-  }
 
   render() {
     const { picture } = this.props;

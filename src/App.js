@@ -68,8 +68,7 @@ class App extends Component {
 
   render() {
     const { pictures, status, error, showModal, currentPicture } = this.state;
-    // console.log(this.state.pictures);
-    // console.log(this.state.page);
+
     return (
       <div className="App">
         <Searchbar onSubmit={this.formSubmit} />
