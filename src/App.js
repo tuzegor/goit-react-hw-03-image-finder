@@ -11,7 +11,7 @@ class App extends Component {
   state = {
     name: '',
     page: 1,
-    pictures: null,
+    pictures: [],
     status: 'idle',
     error: null,
     showModal: false,
@@ -19,7 +19,34 @@ class App extends Component {
   };
 
   formSubmit = name => {
-    this.setState({ name, page: 1 });
+    this.setState({ name, pictures: [], page: 1 });
+  };
+
+  loadMorePictures = () => {
+    this.fetchPictures();
+  };
+
+  fetchPictures = () => {
+    const { name, page } = this.state;
+    console.log(this.state.page);
+    this.setState({ status: 'pending' });
+
+    fetchPicturesApi(name, page)
+      .then(pictures => {
+        if (pictures.total === 0) {
+          this.setState({
+            error: `We don't have picture: ${name}`,
+            status: 'rejected',
+          });
+        } else {
+          this.setState(prevState => ({
+            pictures: [...prevState.pictures, ...pictures.hits],
+            status: 'resolved',
+            page: prevState.page + 1,
+          }));
+        }
+      })
+      .catch(error => this.setState({ error, status: 'rejected' }));
   };
 
   openModal = (id, largeImageURL, tags) => {
@@ -35,33 +62,6 @@ class App extends Component {
     });
   };
 
-  loadMorePictures = () => {
-    this.fetchPictures();
-  };
-
-  fetchPictures = () => {
-    const { name, page } = this.state;
-
-    this.setState({ status: 'pending' });
-
-    fetchPicturesApi(name, page)
-      .then(pictures => {
-        if (pictures.total === 0) {
-          this.setState({
-            error: `We don't have picture: ${name}`,
-            status: 'rejected',
-          });
-        } else {
-          this.setState(prevState => ({
-            pictures: pictures.hits,
-            status: 'resolved',
-            page: prevState.page + 1,
-          }));
-        }
-      })
-      .catch(error => this.setState({ error, status: 'rejected' }));
-  };
-
   componentDidUpdate(prevProps, prevState) {
     if (prevState.name !== this.state.name) {
       this.fetchPictures();
@@ -70,7 +70,8 @@ class App extends Component {
 
   render() {
     const { pictures, status, error, showModal, currentPicture } = this.state;
-
+    console.log(this.state.page);
+    console.log(pictures);
     return (
       <div className="App">
         <Searchbar onSubmit={this.formSubmit} />
