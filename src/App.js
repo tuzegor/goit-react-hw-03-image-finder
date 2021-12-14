@@ -18,35 +18,39 @@ class App extends Component {
     currentPicture: null,
   };
 
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevState.name !== this.state.name ||
+      prevState.page !== this.state.page
+    ) {
+      const { name, page } = this.state;
+
+      fetchPicturesApi(name, page)
+        .then(pictures => {
+          if (pictures.total === 0) {
+            this.setState({
+              error: `We don't have picture: ${name}`,
+              status: 'rejected',
+            });
+          } else {
+            this.setState(prevState => ({
+              pictures: [...prevState.pictures, ...pictures.hits],
+              status: 'resolved',
+            }));
+          }
+        })
+        .catch(error => this.setState({ error, status: 'rejected' }));
+    }
+  }
+
   formSubmit = name => {
-    this.setState({ name, pictures: [], page: 1 });
+    this.setState({ name, pictures: [], page: 1, status: 'pending' });
   };
 
   loadMorePictures = () => {
-    this.fetchPictures();
-  };
-
-  fetchPictures = () => {
-    const { name, page } = this.state;
-
-    this.setState({ status: 'pending' });
-
-    fetchPicturesApi(name, page)
-      .then(pictures => {
-        if (pictures.total === 0) {
-          this.setState({
-            error: `We don't have picture: ${name}`,
-            status: 'rejected',
-          });
-        } else {
-          this.setState(prevState => ({
-            pictures: [...prevState.pictures, ...pictures.hits],
-            status: 'resolved',
-            page: prevState.page + 1,
-          }));
-        }
-      })
-      .catch(error => this.setState({ error, status: 'rejected' }));
+    this.setState({
+      page: this.state.page + 1,
+    });
   };
 
   openModal = (id, largeImageURL, tags) => {
@@ -62,15 +66,10 @@ class App extends Component {
     });
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.name !== this.state.name) {
-      this.fetchPictures();
-    }
-  }
-
   render() {
     const { pictures, status, error, showModal, currentPicture } = this.state;
-
+    // console.log(this.state.pictures);
+    // console.log(this.state.page);
     return (
       <div className="App">
         <Searchbar onSubmit={this.formSubmit} />
