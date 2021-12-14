@@ -28,7 +28,7 @@ class App extends Component {
 
   fetchPictures = () => {
     const { name, page } = this.state;
-    console.log(this.state.page);
+
     this.setState({ status: 'pending' });
 
     fetchPicturesApi(name, page)
@@ -70,8 +70,7 @@ class App extends Component {
 
   render() {
     const { pictures, status, error, showModal, currentPicture } = this.state;
-    console.log(this.state.page);
-    console.log(pictures);
+
     return (
       <div className="App">
         <Searchbar onSubmit={this.formSubmit} />
