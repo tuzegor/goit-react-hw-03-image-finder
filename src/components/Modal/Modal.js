@@ -9,6 +9,20 @@ class Modal extends Component {
     }
   };
 
+  closePictureByEscape = e => {
+    console.log(e);
+    if (e.code === 'Escape') {
+      this.props.closeModal();
+    }
+  };
+
+  componentDidMount() {
+    window.addEventListener('keydown', this.closePictureByEscape);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.closePictureByEscape);
+  }
+
   render() {
     const { picture } = this.props;
 
