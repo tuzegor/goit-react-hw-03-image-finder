@@ -48,9 +48,9 @@ class App extends Component {
   };
 
   loadMorePictures = () => {
-    this.setState({
-      page: this.state.page + 1,
-    });
+    this.setState(prevState => ({
+      page: prevState.page + 1,
+    }));
   };
 
   openModal = (id, largeImageURL, tags) => {
